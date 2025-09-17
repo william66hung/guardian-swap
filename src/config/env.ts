@@ -13,4 +13,5 @@ export const env = {
   // Contract Addresses (to be deployed)
   GUARDIAN_SWAP_CONTRACT: import.meta.env.VITE_GUARDIAN_SWAP_CONTRACT || '',
   FHE_CONTRACT: import.meta.env.VITE_FHE_CONTRACT || '',
+  CROSS_CHAIN_BRIDGE_CONTRACT: import.meta.env.VITE_CROSS_CHAIN_BRIDGE_CONTRACT || '',
 } as const;

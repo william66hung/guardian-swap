@@ -49,18 +49,32 @@ const Index = () => {
           </p>
           
           <div className="flex flex-wrap justify-center gap-4 mb-16">
-            <Button variant="hero" size="lg">
+            <Button 
+              variant="hero" 
+              size="lg"
+              onClick={() => {
+                const swapSection = document.getElementById('swap-interface');
+                swapSection?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               <Globe className="w-5 h-5 mr-2" />
               Start Hidden Swap
             </Button>
-            <Button variant="outline" size="lg">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => {
+                const learnSection = document.getElementById('learn-more');
+                learnSection?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Learn More
             </Button>
           </div>
         </div>
 
         {/* Globe and Swap Interface */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+        <div id="swap-interface" className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
           {/* Animated Globe */}
           <div className="space-y-8">
             <CrossChainGlobe />
@@ -155,6 +169,107 @@ const Index = () => {
             </div>
           </div>
         </div>
+
+        {/* Learn More Section */}
+        <section id="learn-more" className="mt-24 max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
+              How Hidden Swaps Work
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Discover the revolutionary technology behind privacy-first cross-chain trading
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {/* Step 1 */}
+            <div className="text-center p-6 rounded-xl bg-card/50 border border-border/50">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-xl font-bold text-primary">1</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Create Encrypted Order</h3>
+              <p className="text-muted-foreground">
+                Your swap details are encrypted using FHE before being submitted to the blockchain, 
+                keeping your trading strategy completely private.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center p-6 rounded-xl bg-card/50 border border-border/50">
+              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-xl font-bold text-accent">2</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Cross-Chain Routing</h3>
+              <p className="text-muted-foreground">
+                Our smart routing algorithm finds the optimal path across multiple chains, 
+                ensuring the best rates while maintaining privacy.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center p-6 rounded-xl bg-card/50 border border-border/50">
+              <div className="w-12 h-12 rounded-full bg-primary-glow/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-xl font-bold text-primary-glow">3</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Secure Execution</h3>
+              <p className="text-muted-foreground">
+                Your order is executed atomically across chains with MEV protection, 
+                ensuring you get exactly what you expect.
+              </p>
+            </div>
+          </div>
+
+          {/* Technical Features */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Advanced Privacy Features</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Shield className="w-5 h-5 text-accent mt-1" />
+                  <div>
+                    <h4 className="font-semibold">FHE Encryption</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Fully Homomorphic Encryption ensures your order amounts and details 
+                      remain encrypted throughout the entire process.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Eye className="w-5 h-5 text-primary mt-1" />
+                  <div>
+                    <h4 className="font-semibold">MEV Protection</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Prevent front-running and sandwich attacks with encrypted order books 
+                      that reveal nothing until execution.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Globe className="w-5 h-5 text-accent-glow mt-1" />
+                  <div>
+                    <h4 className="font-semibold">Cross-Chain Atomicity</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Guaranteed atomic execution across multiple chains with 
+                      rollback protection if any step fails.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-8 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 border border-border/50">
+              <h4 className="text-lg font-semibold mb-4">Supported Networks</h4>
+              <div className="grid grid-cols-2 gap-3">
+                {['Ethereum', 'Polygon', 'Arbitrum', 'Optimism', 'Base', 'Avalanche'].map((network) => (
+                  <div key={network} className="flex items-center gap-2 p-2 rounded-lg bg-background/50">
+                    <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                    <span className="text-sm font-medium">{network}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       
       {/* Footer */}

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowUpDown, Shield, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowUpDown, Shield, Eye, EyeOff, Loader2, Globe } from 'lucide-react';
 import { useGuardianSwap } from '@/hooks/useGuardianSwap';
+import { useCrossChain } from '@/hooks/useCrossChain';
 import { toast } from 'sonner';
 
 const SwapInterface = () => {
@@ -11,6 +13,7 @@ const SwapInterface = () => {
   const [toAmount, setToAmount] = useState('');
   const [isEncrypted, setIsEncrypted] = useState(true);
   const [minAmountOut, setMinAmountOut] = useState('');
+  const [swapMode, setSwapMode] = useState<'swap' | 'bridge'>('swap');
   
   const { 
     isConnected, 
@@ -21,6 +24,14 @@ const SwapInterface = () => {
     error,
     userBalance 
   } = useGuardianSwap();
+
+  const {
+    initiateBridge,
+    supportedChains,
+    getEstimatedBridgeTime,
+    getBridgeFees,
+    bridgeOrders
+  } = useCrossChain();
   
   const tokens = [
     { symbol: 'ETH', name: 'Ethereum', chain: 'Ethereum', address: '0x0000000000000000000000000000000000000000' },
@@ -73,12 +84,37 @@ const SwapInterface = () => {
     }
   };
 
+  const handleBridge = async () => {
+    if (!isConnected) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+
+    if (!fromAmount) {
+      toast.error('Please enter amount to bridge');
+      return;
+    }
+
+    try {
+      const bridgeId = await initiateBridge(
+        fromToken.chain.toLowerCase(),
+        toToken.chain.toLowerCase(),
+        fromAmount
+      );
+      
+      toast.success(`Bridge initiated! ID: ${bridgeId}`);
+    } catch (err) {
+      console.error('Bridge error:', err);
+      toast.error('Failed to initiate bridge');
+    }
+  };
+
   return (
     <Card className="w-full max-w-md mx-auto border-border/50 glow">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-center justify-center">
           <Shield className="w-5 h-5 text-accent" />
-          Hidden Cross-Chain Swap
+          {swapMode === 'swap' ? 'Hidden Cross-Chain Swap' : 'Cross-Chain Bridge'}
         </CardTitle>
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
@@ -92,6 +128,23 @@ const SwapInterface = () => {
             className="h-6 px-2 text-xs"
           >
             Toggle
+          </Button>
+        </div>
+        <div className="flex justify-center gap-1 mt-2">
+          <Button
+            variant={swapMode === 'swap' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setSwapMode('swap')}
+          >
+            Swap
+          </Button>
+          <Button
+            variant={swapMode === 'bridge' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setSwapMode('bridge')}
+          >
+            <Globe className="w-4 h-4 mr-1" />
+            Bridge
           </Button>
         </div>
       </CardHeader>
@@ -189,20 +242,22 @@ const SwapInterface = () => {
           </div>
         )}
 
-        {/* Swap Button */}
+        {/* Action Button */}
         <Button 
           className="w-full glow-accent" 
           size="lg"
-          onClick={handleSwap}
+          onClick={swapMode === 'swap' ? handleSwap : handleBridge}
           disabled={!isConnected || isPending || isConfirming}
         >
           {isPending || isConfirming ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              {isPending ? 'Creating Order...' : 'Confirming...'}
+              {isPending ? (swapMode === 'swap' ? 'Creating Order...' : 'Initiating Bridge...') : 'Confirming...'}
             </>
           ) : (
-            isEncrypted ? 'Create Hidden Swap' : 'Create Swap'
+            swapMode === 'swap' 
+              ? (isEncrypted ? 'Create Hidden Swap' : 'Create Swap')
+              : 'Start Cross-Chain Bridge'
           )}
         </Button>
 
