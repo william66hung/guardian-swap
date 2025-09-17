@@ -1,0 +1,40 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="globeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="networkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="url(#backgroundGradient)" stroke="url(#globeGradient)" stroke-width="2"/>
+  
+  <!-- Globe/Network icon -->
+  <circle cx="16" cy="16" r="10" fill="url(#globeGradient)" stroke="white" stroke-width="1"/>
+  
+  <!-- Network grid lines -->
+  <path d="M6 16L26 16" stroke="white" stroke-width="0.8" opacity="0.6"/>
+  <path d="M16 6L16 26" stroke="white" stroke-width="0.8" opacity="0.6"/>
+  <ellipse cx="16" cy="16" rx="10" ry="5" fill="none" stroke="white" stroke-width="0.8" opacity="0.4"/>
+  <ellipse cx="16" cy="16" rx="5" ry="10" fill="none" stroke="white" stroke-width="0.8" opacity="0.4"/>
+  
+  <!-- Network nodes -->
+  <circle cx="16" cy="8" r="1.5" fill="url(#networkGradient)"/>
+  <circle cx="24" cy="16" r="1.5" fill="url(#networkGradient)"/>
+  <circle cx="16" cy="24" r="1.5" fill="url(#networkGradient)"/>
+  <circle cx="8" cy="16" r="1.5" fill="url(#networkGradient)"/>
+  
+  <!-- Connection lines -->
+  <path d="M16 8L24 16" stroke="url(#networkGradient)" stroke-width="1" opacity="0.7"/>
+  <path d="M24 16L16 24" stroke="url(#networkGradient)" stroke-width="1" opacity="0.7"/>
+  <path d="M16 24L8 16" stroke="url(#networkGradient)" stroke-width="1" opacity="0.7"/>
+  <path d="M8 16L16 8" stroke="url(#networkGradient)" stroke-width="1" opacity="0.7"/>
+</svg>
